@@ -87,6 +87,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias e="emacs -nw"
+alias directorysize="du --max-depth=1 -h"
+alias ldir="ls --color=auto -lahd */"
+alias clavier-fr="setxkbmap fr"
+alias clavier-us="setxkbmap us"
 
 alias cdbe="cd ~/workspace/shippeo.backend"
 alias cdsf="cd ~/workspace/shippeo.sf"
