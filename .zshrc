@@ -91,10 +91,6 @@ alias directorysize="du --max-depth=1 -h"
 alias ldir="ls --color=auto -lahd */"
 alias clavier-fr="setxkbmap fr"
 alias clavier-us="setxkbmap us"
-
-alias cdbe="cd ~/workspace/shippeo.backend"
-alias cdsf="cd ~/workspace/shippeo.sf"
-alias cdfr="cd ~/workspace/shippeo.frontend"
 alias cdws="cd ~/workspace"
 
 export BLACKFIRE_CLIENT_ID="049b0975-a4ba-4d93-9bd4-86c2d6ff9219"
@@ -109,6 +105,25 @@ gbkp () { # Done in a function because in a alias date is run at start and not w
 	git branch $BACKUP
 }
 
+ssh-restart() {
+	_ssh_env_cache="$HOME/.ssh/environment-$SHORT_HOST"
+	local lifetime
+	local -a identities
+
+	# start ssh-agent and setup environment
+	zstyle -s :omz:plugins:ssh-agent lifetime lifetime
+
+	ssh-agent -s ${lifetime:+-t} ${lifetime} | sed 's/^echo/#echo/' >! $_ssh_env_cache
+	chmod 600 $_ssh_env_cache
+	. $_ssh_env_cache > /dev/null
+
+	# load identies
+	zstyle -a :omz:plugins:ssh-agent identities identities
+
+	echo starting ssh-agent...
+	ssh-add $HOME/.ssh/${^identities}
+}
+
 # rebase $i number of commit
 for i in `seq 2 10`; do alias rb$i="grbi @~$i"; done
 
@@ -118,5 +133,12 @@ alias grbdev="gbkp && git fetch --all --prune && git rebase origin/develop && gi
 
 alias server="python -m SimpleHTTPServer"
 alias serverphp="php -S localhost:8000"
+
+
+# SHIPPEO related
+
+alias cdbe="cd ~/workspace/shippeo.backend"
+alias cdsf="cd ~/workspace/shippeo.sf"
+alias cdfr="cd ~/workspace/shippeo.frontend"
 
 source ~/workspace/shippeo.backend/bin/bash-aliases.sh
