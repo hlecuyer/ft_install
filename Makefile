@@ -1,7 +1,8 @@
 
 APT=sudo apt-get -y
 WGET=wget -c
-DIR=~/.ft_install
+DIR=~/.ft_inst
+CODENAME=`lsb_release --codename --short`
 
 all: git zshrc chrome emacs i3 docker spotify phpstorm php7 config slack postman upgrade
 
