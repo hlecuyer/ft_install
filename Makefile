@@ -1,10 +1,21 @@
 
 APT=sudo apt-get -y
 WGET=wget -c
+DIR=~/.ft_install
 
 all: git zshrc chrome emacs i3 docker spotify phpstorm php7 config slack postman upgrade
 
 noui: git zshrc emacs docker php7 config upgrade
+
+shippeo: all
+		cat $(DIR)/i3/default.config $(DIR)/i3/shippeo.config > ~/ft_install/i3/config
+		rm -rf ~/.config/i3/config
+		ln -s $(DIR)/i3/config ~/.config/i3/config
+
+home: all
+		cat $(DIR)/i3/default.config $(DIR)/i3/home.config > ~/ft_install/i3/config
+		rm -rf ~/.config/i3/config
+		ln -s $(DIR)/i3/config ~/.config/i3/config
 
 upgrade:
 		$(APT) update
@@ -20,7 +31,7 @@ git:
 		@echo 'Go on https://github.com/settings/ssh'
 		@echo 'When you have finished "Press Enter" on this terminal'
 		@read 'Waiting'
-		git clone git@github.com:johnduro/ft_install.git ~/.ft_install
+		git clone git@github.com:johnduro/ft_install.git $(DIR)
 
 phpstorm:
 		$(APT) install openjdk-8-jre
@@ -48,9 +59,9 @@ config:
 		ln -s $(which xrandr) ~/bin/screen
 		ln -s ~/PhpStorm/bin/phpstorm.sh ~/bin/phpstorm
 		ln -s ~/Postman/Postman ~/bin/postman
-		ln -s ~/.ft_install/.zshrc ~/.zshrc
-		ln -s ~/.ft_install/i3 ~/.config/i3
-		ln -s ~/.ft_install/.gitconfig ~/.gitconfig
+		ln -s $(DIR)/.zshrc ~/.zshrc
+		ln -s $(DIR)/i3/default.config ~/.config/i3/config
+		ln -s $(DIR)/.gitconfig ~/.gitconfig
 
 i3:
 		sudo su -c "echo 'deb http://debian.sur5r.net/i3/ $(CODENAME) universe' >> /etc/apt/sources.list"
@@ -58,6 +69,7 @@ i3:
 		$(APT) --allow-unauthenticated install sur5r-keyring
 		$(APT) update
 		$(APT) install i3 xautolock
+		mkdir -p ~/.config/i3
 
 
 docker:
