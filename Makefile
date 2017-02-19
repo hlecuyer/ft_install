@@ -3,6 +3,7 @@ APT=sudo apt-get -y
 WGET=wget -c
 DIR=~/.ft_install
 CODENAME=`lsb_release --codename --short`
+USERNAME=johnduro
 
 all: git zshrc chrome emacs i3 docker spotify phpstorm php7 config slack postman upgrade
 
@@ -58,8 +59,10 @@ emacs:
 
 config:
 		rm -rf ~/.zshrc ~/.config/i3 ~/.gitconfig
-		ln -s $(which alsamixer) ~/bin/sound
-		ln -s $(which xrandr) ~/bin/screen
+		mkdir -p ~/bin
+		mkdir -p ~/.config/i3
+		ln -s `which alsamixer` ~/bin/sound
+		ln -s `which xrandr` ~/bin/screen
 		ln -s ~/PhpStorm/bin/phpstorm.sh ~/bin/phpstorm
 		ln -s ~/Postman/Postman ~/bin/postman
 		ln -s $(DIR)/.zshrc ~/.zshrc
@@ -79,7 +82,7 @@ docker:
 		$(APT) update
 		$(APT) install wget curl
 		$(WGET) -qO- https://get.docker.com/ | sh
-		sudo usermod -aG docker johnduro
+		sudo usermod -aG docker $(USERNAME)
 		sudo su -c "curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
 		sudo chmod +x /usr/local/bin/docker-compose
 
