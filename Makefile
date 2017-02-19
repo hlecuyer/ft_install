@@ -51,6 +51,8 @@ emacs:
 		$(APT) install emacs
 		git clone git@github.com:johnduro/emacs_config.git ~/.ft_emacs_config
 		mkdir -p .emacs.d
+		rm -rf ~/.emacs.d/init.el
+		rm -rf ~/.emacs.d/lisp
 		ln -s ~/.ft_emacs_config/dot_emacs.el ~/.emacs.d/init.el
 		ln -s ~/.ft_emacs_config/lisp ~/.emacs.d/lisp
 
